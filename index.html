@@ -1,97 +1,120 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test de Nivel de Ira</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #ffeaea;
-            color: #333;
-            max-width: 700px;
-            margin: auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #d32f2f;
-        }
-        .question {
-            margin-bottom: 20px;
-        }
-        button {
-            background: #d32f2f;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            font-size: 16px;
-            border-radius: 5px;
-        }
-        .result {
-            font-weight: bold;
-            font-size: 18px;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Test de Nivel de Ira</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffebee;
+      color: #333;
+      max-width: 700px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1 {
+      color: #e53935;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    button {
+      background: #e53935;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-size: 16px;
+      border-radius: 5px;
+    }
+    .result {
+      font-weight: bold;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
 </head>
 <body>
-    <h1>¿Qué nivel de ira estás sintiendo ahora?</h1>
-    <form id="testForm"></form>
-    <button onclick="calcularResultado()">Ver resultado</button>
-    <div class="result" id="resultado"></div>
+  <h1>¿Qué nivel de ira estás sintiendo ahora?</h1>
+  <form id="testForm"></form>
+  <button onclick="calcularResultado()">Ver resultado</button>
+  <div class="result" id="resultado"></div>
 
-    <script>
-        const preguntas = [
-            "¿Sientes que alguien ha cruzado un límite contigo recientemente?",
-            "¿Algo que alguien dijo o hizo te molesta ahora mismo?",
-            "¿Te cuesta mantener la calma o te dan ganas de alzar la voz?",
-            "¿Sientes que has sido tratado/a injustamente hoy?",
-            "¿Te cuesta dejar de pensar en algo que te molestó?",
-            "¿Tienes tensión en el cuerpo, como mandíbula apretada o puños cerrados?",
-            "¿Sientes que te irritas con facilidad ante cosas pequeñas hoy?",
-            "¿Te gustaría decir algo con fuerza a alguien ahora mismo?",
-            "¿Tienes pensamientos sobre hacer justicia por lo que pasó?",
-            "¿Te sientes fuera de control con lo que sientes?"
-        ];
+  <script>
+    const preguntas = [
+      "¿Sientes que alguien ha cruzado un límite contigo?",
+      "¿Te molestó algo que alguien dijo o hizo recientemente?",
+      "¿Tienes ganas de gritar, discutir o explotar emocionalmente?",
+      "¿Has sentido que no respetan tu tiempo, tu espacio o tus ideas?",
+      "¿Sientes tensión física, como mandíbula apretada o puños cerrados?",
+      "¿Estás teniendo pensamientos repetitivos sobre algo que te enojó?",
+      "¿Reaccionas con impaciencia o sarcasmo más de lo usual?",
+      "¿Has evitado a alguien para no decirle algo con rabia?",
+      "¿Te ha costado concentrarte por estar molesto/a?",
+      "¿Sientes que no puedes soltar lo que te enoja aunque lo intentes?"
+    ];
 
-        const opciones = [
-            "No, estoy tranquilo/a.",
-            "Un poco, pero lo estoy manejando.",
-            "Sí, me siento molesto/a.",
-            "Estoy muy irritado/a y me cuesta contenerme.",
-            "Siento una furia intensa que me cuesta controlar."
-        ];
+    const opciones = [
+      ["No, en absoluto.","Un poco.","Sí, algo.","Bastante.","Sí, muchísimo."],
+      ["No me molestó nada.","Algo leve.","Sí, me incomodó.","Me molestó bastante.","Me dolió o indignó."],
+      ["No tengo ganas.","Quizá un poco.","Sí, lo he sentido.","Estoy conteniéndome.","Siento que podría estallar."],
+      ["No me ha pasado.","Un caso aislado.","Sí, varias veces.","Todo el tiempo.","Ya no lo tolero más."],
+      ["No, mi cuerpo está tranquilo.","Algo tenso/a.","Sí, lo noto.","Muy tenso/a.","Mi cuerpo está en alerta total."],
+      ["No le doy vueltas.","A veces pienso en eso.","Pienso seguido en eso.","No puedo dejar de pensar.","Me obsesiona lo que pasó."],
+      ["No, sigo igual que siempre.","Un poco más irritable.","Sí, bastante.","Mucho más que antes.","Estoy constantemente a la defensiva."],
+      ["No he evitado a nadie.","Tal vez inconscientemente.","Sí, lo hice.","Definitivamente lo hice.","No quiero ver a nadie ahora mismo."],
+      ["No me afecta.","Me distrae un poco.","Sí, bastante.","Me cuesta mucho concentrarme.","No puedo pensar en otra cosa."],
+      ["No, ya lo solté.","Todavía me duele un poco.","Sigo molesto/a.","No puedo soltarlo.","No quiero soltarlo aún."]
+    ];
 
-        const form = document.getElementById("testForm");
-        preguntas.forEach((pregunta, i) => {
-            const div = document.createElement("div");
-            div.classList.add("question");
-            div.innerHTML = `<p>${i + 1}. ${pregunta}</p>`;
-            opciones.forEach((op, j) => {
-                div.innerHTML += `<label><input type="radio" name="p${i}" value="${j + 1}"> ${op}</label><br>`;
-            });
-            form.appendChild(div);
-        });
+    const form = document.getElementById("testForm");
+    preguntas.forEach((pregunta, i) => {
+      const div = document.createElement("div");
+      div.classList.add("question");
+      div.innerHTML = `<p>${i + 1}. ${pregunta}</p>`;
+      opciones[i].forEach((op, j) => {
+        div.innerHTML += `<label><input type="radio" name="p${i}" value="${j + 1}"> ${op}</label><br>`;
+      });
+      form.appendChild(div);
+    });
 
-        function calcularResultado() {
-            let total = 0;
-            for (let i = 0; i < preguntas.length; i++) {
-                const respuesta = document.querySelector(`input[name="p${i}"]:checked`);
-                if (respuesta) {
-                    total += parseInt(respuesta.value);
-                }
-            }
-            let resultado = "";
-            if (total <= 16) resultado = "Nivel: Irritación / Molestia";
-            else if (total <= 24) resultado = "Nivel: Frustración";
-            else if (total <= 32) resultado = "Nivel: Enfado / Enojo";
-            else if (total <= 40) resultado = "Nivel: Ira intensa";
-            else resultado = "Nivel: Furia / Cólera";
-
-            document.getElementById("resultado").innerText = resultado;
+    function calcularResultado() {
+      let total = 0;
+      for (let i = 0; i < preguntas.length; i++) {
+        const respuesta = document.querySelector(`input[name="p${i}"]:checked`);
+        if (respuesta) {
+          total += parseInt(respuesta.value);
         }
-    </script>
+      }
+
+      let resultado = "";
+      let urlConsejo = "";
+
+      if (total <= 16) {
+        resultado = "Nivel: Irritación / Molestia leve";
+        urlConsejo = "consejos-nivel1.html";
+      } else if (total <= 24) {
+        resultado = "Nivel: Frustración";
+        urlConsejo = "consejos-nivel2.html";
+      } else if (total <= 32) {
+        resultado = "Nivel: Enfado / Enojo";
+        urlConsejo = "consejos-nivel3.html";
+      } else if (total <= 40) {
+        resultado = "Nivel: Ira intensa";
+        urlConsejo = "consejos-nivel4.html";
+      } else {
+        resultado = "Nivel: Furia / Cólera";
+        urlConsejo = "consejos-nivel5.html";
+      }
+
+      document.getElementById("resultado").innerText = resultado;
+
+      // Redirecciona automáticamente luego de 4 segundos
+      setTimeout(() => {
+        window.location.href = urlConsejo;
+      }, 4000);
+    }
+  </script>
 </body>
 </html>
